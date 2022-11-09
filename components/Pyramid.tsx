@@ -11,7 +11,7 @@ const layer = new TileLayer({
   source: new Zoomify({
     tileSize: 256,
     tilePixelRatio: 1,
-    url: `/zoomify/`,
+    url: `/zoomify/img/`,
     size: [mapSize.w, mapSize.h],
     crossOrigin: "anonymous",
   }),
