@@ -7,7 +7,7 @@
     "export": "next build && next export",
     "start": "next build && next start",
     "lint": "next lint",
-    "selfupdate": "ncu -p yarn && yarn"
+    "selfupdate": "pnpm up"
   },
   "dependencies": {
     "@types/node": "18.11.9",
@@ -18,7 +18,6 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "next": "13.0.2",
-    "npm-check-updates": "16.3.16",
     "ol": "7.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

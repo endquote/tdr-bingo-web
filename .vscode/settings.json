@@ -3,6 +3,7 @@
     "source.fixAll": true,
     "source.organizeImports": true
   },
+  "npm.packageManager": "pnpm",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modificationsIfAvailable",
@@ -16,6 +17,9 @@
     "**/dist": true,
     "**/node_modules": true,
     "**/Thumbs.db": true,
-    "**/assets": true
+    "**/assets": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/zoomify": true
   }
 }
