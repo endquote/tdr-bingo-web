@@ -1,6 +1,7 @@
+// @refresh reset
+/* eslint-disable @next/next/no-css-tags */
 import { Map, View } from "ol";
 import { Coordinate } from "ol/coordinate";
-import { defaults as defaultInteractions } from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import Zoomify from "ol/source/Zoomify";
 import { MouseEvent, useEffect, useRef } from "react";
@@ -20,16 +21,14 @@ const extent = layer.getSource()?.getTileGrid()?.getExtent();
 
 const resolutions = layer.getSource()!.getTileGrid()!.getResolutions();
 
+// limit min zoom https://openlayers.org/en/latest/examples/min-zoom.html
 const ol = new Map({
   layers: [layer],
   view: new View({
     resolutions,
     extent,
     constrainOnlyCenter: true,
-  }),
-  interactions: defaultInteractions({
-    pinchRotate: false,
-    altShiftDragRotate: false,
+    enableRotation: false,
   }),
 });
 
@@ -38,7 +37,8 @@ type Props = {
 };
 
 export const Pyramid = ({ onMapClick }: Props) => {
-  const mapRef = useRef(null!);
+  const mapRef = useRef<HTMLDivElement>(null!);
+
   useEffect(() => {
     ol.setTarget(mapRef.current);
     ol.getView().fit(extent!);
