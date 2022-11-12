@@ -1,4 +1,3 @@
-// @refresh reset
 import { Map, MapBrowserEvent, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import TileLayer from "ol/layer/Tile";
@@ -16,48 +15,22 @@ export const Pyramid = ({ onMapClick }: Props) => {
 
   const mapSize = useMemo(() => ({ w: 83512, h: 115478 }), []);
 
-  const layer = useMemo(
-    () =>
-      new TileLayer({
-        source: new Zoomify({
-          tileSize: 256,
-          tilePixelRatio: 1,
-          url: `/zoomify/img/`,
-          size: [mapSize.w, mapSize.h],
-          crossOrigin: "anonymous",
-        }),
-      }),
-    [mapSize]
-  );
-
-  const extent = useMemo(
-    () => layer.getSource()?.getTileGrid()?.getExtent()!,
-    [layer]
-  );
-
-  const resolutions = useMemo(
-    () => layer.getSource()?.getTileGrid()?.getResolutions()!,
-    [layer]
-  );
-
-  const view = useMemo(
-    () =>
-      new View({
-        resolutions,
-        extent,
-        constrainOnlyCenter: true,
-        enableRotation: false,
-      }),
-    [extent, resolutions]
-  );
-
   const onChange = useCallback((e: ObjectEvent) => {
     const view = e.target as View;
     const [width, height] = e.target.viewportSize_;
     const center = view.getCenter();
     const resolution = view.getResolution();
     const zoom = view.getZoom();
-    console.log({ type: e.type, width, height, center, resolution, zoom });
+    const extent = view.calculateExtent();
+    console.log({
+      type: e.type,
+      width,
+      height,
+      center,
+      resolution,
+      zoom,
+      extent,
+    });
 
     const outOfBounds = false;
     if (outOfBounds) {
@@ -75,14 +48,27 @@ export const Pyramid = ({ onMapClick }: Props) => {
   }, []);
 
   const onClick = useCallback(
-    (e: MapBrowserEvent<PointerEvent>) => {
-      onMapClick?.(e.coordinate);
-    },
+    (e: MapBrowserEvent<PointerEvent>) => onMapClick?.(e.coordinate),
     [onMapClick]
   );
 
   useEffect(() => {
-    const ol = new Map({ layers: [layer], view });
+    const source = new Zoomify({
+      url: `/zoomify/img/`,
+      size: [mapSize.w, mapSize.h],
+    });
+
+    const grid = source.getTileGrid()!;
+    const extent = grid.getExtent();
+    const view = new View({
+      resolutions: grid.getResolutions(),
+      extent: extent,
+      constrainOnlyCenter: true,
+      enableRotation: false,
+    });
+
+    const ol = new Map({ layers: [new TileLayer({ source })], view });
+
     ol.setTarget(mapRef.current);
     view.fit(extent);
     view.on("change:center", onChange);
@@ -96,7 +82,7 @@ export const Pyramid = ({ onMapClick }: Props) => {
       view.un("change:resolution", onChange);
       ol.un("click", onClick);
     };
-  }, [extent, layer, mapRef, onChange, onClick, resolutions, view]);
+  }, [mapRef, mapSize.h, mapSize.w, onChange, onClick]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
