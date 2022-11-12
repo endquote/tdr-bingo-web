@@ -1,36 +1,10 @@
-// @refresh reset
-/* eslint-disable @next/next/no-css-tags */
-import { Map, View } from "ol";
+import { Map, MapBrowserEvent, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import TileLayer from "ol/layer/Tile";
+import { ObjectEvent } from "ol/Object";
+import "ol/ol.css";
 import Zoomify from "ol/source/Zoomify";
-import { MouseEvent, useEffect, useRef } from "react";
-const mapSize = { w: 83512, h: 115478 };
-
-const layer = new TileLayer({
-  source: new Zoomify({
-    tileSize: 256,
-    tilePixelRatio: 1,
-    url: `/zoomify/img/`,
-    size: [mapSize.w, mapSize.h],
-    crossOrigin: "anonymous",
-  }),
-});
-
-const extent = layer.getSource()?.getTileGrid()?.getExtent();
-
-const resolutions = layer.getSource()!.getTileGrid()!.getResolutions();
-
-// limit min zoom https://openlayers.org/en/latest/examples/min-zoom.html
-const ol = new Map({
-  layers: [layer],
-  view: new View({
-    resolutions,
-    extent,
-    constrainOnlyCenter: true,
-    enableRotation: false,
-  }),
-});
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 type Props = {
   onMapClick?: (coord: Coordinate) => void;
@@ -39,40 +13,58 @@ type Props = {
 export const Pyramid = ({ onMapClick }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
+  const mapSize = useMemo(() => ({ w: 83512, h: 115478 }), []);
+
+  const onChange = useCallback((e: ObjectEvent) => {
+    const view = e.target as View;
+    const [width, height] = e.target.viewportSize_;
+    const center = view.getCenter();
+    const resolution = view.getResolution();
+    const zoom = view.getZoom();
+    const extent = view.calculateExtent();
+  }, []);
+
+  const onClick = useCallback(
+    (e: MapBrowserEvent<PointerEvent>) => onMapClick?.(e.coordinate),
+    [onMapClick]
+  );
+
   useEffect(() => {
+    const source = new Zoomify({
+      url: `/zoomify/img/`,
+      size: [mapSize.w, mapSize.h],
+    });
+
+    const grid = source.getTileGrid()!;
+    const extent = grid.getExtent();
+    const view = new View({
+      resolutions: grid.getResolutions(),
+      extent: extent,
+      enableRotation: false,
+      showFullExtent: true,
+    });
+
+    const ol = new Map({ layers: [new TileLayer({ source })], view });
+
     ol.setTarget(mapRef.current);
-    ol.getView().fit(extent!);
-  }, [mapRef]);
+    view.fit(extent);
+    view.on("change:center", onChange);
+    view.on("change:resolution", onChange);
+    ol.on("click", onClick);
 
-  function onClick(e: MouseEvent<HTMLDivElement>) {
-    if (!onMapClick) {
-      return;
-    }
-
-    const px = ol.getEventPixel(e as unknown as UIEvent);
-
-    if (!px) {
-      return;
-    }
-
-    const coord = ol.getCoordinateFromPixel(px);
-
-    if (!coord) {
-      return;
-    }
-
-    coord[1] *= -1;
-
-    onMapClick(coord);
-  }
+    const ref = mapRef.current;
+    return () => {
+      ref.innerHTML = "";
+      view.un("change:center", onChange);
+      view.un("change:resolution", onChange);
+      ol.un("click", onClick);
+    };
+  }, [mapRef, mapSize.h, mapSize.w, onChange, onClick]);
 
   return (
-    <>
-      <link rel="stylesheet" href="/ol.css" />
-      <div onClick={onClick} style={{ display: "flex", flex: 1 }}>
-        <div ref={mapRef} style={{ display: "flex", flex: 1 }}></div>
-      </div>
-    </>
+    <div style={{ display: "flex", flex: 1 }}>
+      <div ref={mapRef} style={{ display: "flex", flex: 1 }}></div>
+    </div>
   );
 };
 
