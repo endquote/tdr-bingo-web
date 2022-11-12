@@ -2,6 +2,7 @@ import { Map, MapBrowserEvent, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import TileLayer from "ol/layer/Tile";
 import "ol/ol.css";
+import { Size } from "ol/size";
 import Zoomify from "ol/source/Zoomify";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
@@ -12,7 +13,7 @@ type Props = {
 export const Pyramid = ({ onMapClick }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
-  const mapSize = useMemo(() => ({ w: 83512, h: 115478 }), []);
+  const mapSize = useMemo<Size>(() => [83512, 115478], []);
 
   const onClick = useCallback(
     (e: MapBrowserEvent<PointerEvent>) => onMapClick?.(e.coordinate),
@@ -22,7 +23,7 @@ export const Pyramid = ({ onMapClick }: Props) => {
   useEffect(() => {
     const source = new Zoomify({
       url: `/zoomify/img/`,
-      size: [mapSize.w, mapSize.h],
+      size: mapSize,
     });
 
     const grid = source.getTileGrid()!;
