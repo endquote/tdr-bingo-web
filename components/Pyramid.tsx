@@ -22,29 +22,6 @@ export const Pyramid = ({ onMapClick }: Props) => {
     const resolution = view.getResolution();
     const zoom = view.getZoom();
     const extent = view.calculateExtent();
-    console.log({
-      type: e.type,
-      width,
-      height,
-      center,
-      resolution,
-      zoom,
-      extent,
-    });
-
-    const outOfBounds = false;
-    if (outOfBounds) {
-      if (e.type === "change:center") {
-        view.un("change:center", onChange);
-        view.setCenter(e.oldValue);
-        view.on("change:center", onChange);
-      }
-      if (e.type === "change:resolution") {
-        view.un("change:resolution", onChange);
-        view.setResolution(e.oldValue);
-        view.on("change:resolution", onChange);
-      }
-    }
   }, []);
 
   const onClick = useCallback(
@@ -63,8 +40,8 @@ export const Pyramid = ({ onMapClick }: Props) => {
     const view = new View({
       resolutions: grid.getResolutions(),
       extent: extent,
-      constrainOnlyCenter: true,
       enableRotation: false,
+      showFullExtent: true,
     });
 
     const ol = new Map({ layers: [new TileLayer({ source })], view });
