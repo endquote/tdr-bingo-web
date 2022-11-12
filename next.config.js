@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   // something about this screws up openlayers
+  // https://nextjs.org/docs/advanced-features/compiler#minification
   swcMinify: false,
 };
 
