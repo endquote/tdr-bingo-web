@@ -1,7 +1,6 @@
 import { Map, MapBrowserEvent, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import TileLayer from "ol/layer/Tile";
-import { ObjectEvent } from "ol/Object";
 import "ol/ol.css";
 import Zoomify from "ol/source/Zoomify";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -14,15 +13,6 @@ export const Pyramid = ({ onMapClick }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
   const mapSize = useMemo(() => ({ w: 83512, h: 115478 }), []);
-
-  const onChange = useCallback((e: ObjectEvent) => {
-    const view = e.target as View;
-    const [width, height] = e.target.viewportSize_;
-    const center = view.getCenter();
-    const resolution = view.getResolution();
-    const zoom = view.getZoom();
-    const extent = view.calculateExtent();
-  }, []);
 
   const onClick = useCallback(
     (e: MapBrowserEvent<PointerEvent>) => onMapClick?.(e.coordinate),
@@ -48,18 +38,14 @@ export const Pyramid = ({ onMapClick }: Props) => {
 
     ol.setTarget(mapRef.current);
     view.fit(extent);
-    view.on("change:center", onChange);
-    view.on("change:resolution", onChange);
     ol.on("click", onClick);
 
     const ref = mapRef.current;
     return () => {
       ref.innerHTML = "";
-      view.un("change:center", onChange);
-      view.un("change:resolution", onChange);
       ol.un("click", onClick);
     };
-  }, [mapRef, mapSize.h, mapSize.w, onChange, onClick]);
+  }, [mapRef, mapSize, onClick]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
