@@ -1,8 +1,8 @@
 // @refresh reset
-/* eslint-disable @next/next/no-css-tags */
 import { Map, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import TileLayer from "ol/layer/Tile";
+import "ol/ol.css";
 import Zoomify from "ol/source/Zoomify";
 import { MouseEvent, useEffect, useRef } from "react";
 const mapSize = { w: 83512, h: 115478 };
@@ -68,7 +68,6 @@ export const Pyramid = ({ onMapClick }: Props) => {
 
   return (
     <>
-      <link rel="stylesheet" href="/ol.css" />
       <div onClick={onClick} style={{ display: "flex", flex: 1 }}>
         <div ref={mapRef} style={{ display: "flex", flex: 1 }}></div>
       </div>
