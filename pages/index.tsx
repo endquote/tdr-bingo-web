@@ -1,18 +1,17 @@
 import dynamic from "next/dynamic";
-import { SiteHead } from "../components/SiteHead";
-import styles from "../styles/Home.module.css";
+import { Coordinate } from "ol/coordinate";
+import { useCallback } from "react";
+import { trackEvent } from "../components/Analytics";
 
 const Pyramid = dynamic(() => import("../components/Pyramid"), {
   ssr: false,
 });
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <SiteHead />
-      <main className={styles.main}>
-        <Pyramid onMapClick={(c) => console.log(c)} />
-      </main>
-    </div>
-  );
+  const click = useCallback((c: Coordinate) => {
+    console.log(c);
+    trackEvent("pyramid", "click", "token", Math.round(c[0]));
+  }, []);
+
+  return <Pyramid onMapClick={click} />;
 }
