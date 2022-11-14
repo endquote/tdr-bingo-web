@@ -39,6 +39,22 @@ export const Pyramid = ({ onMapClick }: Props) => {
       const ty = Math.floor(Math.abs(y) / th) + 1;
 
       onMapClick?.([tx, ty]);
+
+      const map = e.target as Map;
+      const [mw, mh] = map.getSize() || [0, 0];
+      const view = map.getView();
+
+      const minX = tx * tw;
+      const minY = -ty * th;
+      const maxX = minX + tw;
+      const maxY = minY + th;
+
+      view.fit([minX, minY, maxX, maxY]);
+      view.centerOn(
+        [minX + tw / 2 - tw, minY - th / 2 + th],
+        [mw, mh],
+        [mw / 2, mh / 2]
+      );
     },
     [mapSize, onMapClick, tileSize]
   );
