@@ -1,16 +1,44 @@
 import classNames from "classnames";
 import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { Bingo, fonts } from "../data/constants";
+import { selectedBingoAtom } from "../data/state";
 import styles from "./Overlay.module.css";
-import { selectedAtom } from "./state";
 
 export const Overlay = () => {
-  const [selected, setSelected] = useAtom(selectedAtom);
+  const [selectedBingo, setSelectedBingo] = useAtom(selectedBingoAtom);
+
+  const [displayedBingo, setDisplayedBingo] = useState<Bingo | undefined>();
+
+  // this way the info doesn't disappear while the overlay is closing
+  useEffect(() => {
+    if (selectedBingo) {
+      setDisplayedBingo(selectedBingo);
+    }
+  }, [selectedBingo]);
 
   return (
-    <div className={classNames(styles.overlay, selected ? styles.open : "")}>
-      <button onClick={() => setSelected(false)} value="close">
+    <div
+      className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
+    >
+      <button onClick={() => setSelectedBingo(undefined)} value="close">
         close
       </button>
+      {displayedBingo ? (
+        <p>
+          id: {displayedBingo.id}
+          <br />
+          title: {displayedBingo.title}
+          <br />
+          words: {displayedBingo.words}
+          <br />
+          number: {displayedBingo.number}
+          <br />
+          style: {fonts[displayedBingo.style! - 1]}
+        </p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

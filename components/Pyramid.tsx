@@ -15,17 +15,36 @@ export const Pyramid = ({ onMapClick }: Props) => {
 
   const mapSize = useMemo<Size>(() => [83512, 115478], []);
 
+  const tileSize = useMemo<Size>(
+    () => [mapSize[0] / 22, mapSize[1] / 22],
+    [mapSize]
+  );
+
+  // tell listeners which grid cell was clicked
   const onClick = useCallback(
-    (e: MapBrowserEvent<PointerEvent>) => onMapClick?.(e.coordinate),
-    [onMapClick]
+    (e: MapBrowserEvent<PointerEvent>) => {
+      const [x, y] = e.coordinate;
+      const [w, h] = mapSize;
+
+      if (x < 0 || x > w) {
+        return;
+      }
+
+      if (y > 0 || y < -h) {
+        return;
+      }
+
+      const [tw, th] = tileSize;
+      const tx = Math.floor(x / tw) + 1;
+      const ty = Math.floor(Math.abs(y) / th) + 1;
+
+      onMapClick?.([tx, ty]);
+    },
+    [mapSize, onMapClick, tileSize]
   );
 
   useEffect(() => {
-    const source = new Zoomify({
-      url: `/zoomify/img/`,
-      size: mapSize,
-    });
-
+    const source = new Zoomify({ url: `/zoomify/img/`, size: mapSize });
     const grid = source.getTileGrid()!;
     const extent = grid.getExtent();
     const view = new View({
@@ -53,6 +72,6 @@ export const Pyramid = ({ onMapClick }: Props) => {
       <div ref={mapRef} style={{ display: "flex", flex: 1 }}></div>
     </div>
   );
-};
+};;;
 
 export default Pyramid;
