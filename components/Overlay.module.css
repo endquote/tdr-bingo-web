@@ -1,15 +1,25 @@
+/* in landscape, come in from the right */
 .overlay {
   background-color: rgba(255, 255, 255, 0.9);
   position: absolute;
-  top: 20px;
-  bottom: 20px;
+  top: var(--appMargin);
+  bottom: var(--appMargin);
   left: 66%;
-  right: 20px;
-  transform: translateX(100%) translateX(20px);
+  right: var(--appMargin);
+  transform: translateX(100%) translateX(var(--appMargin));
   transition: all var(--transition);
 }
 
+@media (orientation: portrait) {
+  /* in portrait, come in from the bottom */
+  .overlay {
+    top: 66%;
+    left: var(--appMargin);
+    transform: translateY(100%) translateY(var(--appMargin));
+  }
+}
+
 .open {
-  transition: all var(--transition);
-  transform: translateX(0);
+  transition: transform var(--transition);
+  transform: none;
 }
