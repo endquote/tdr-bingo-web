@@ -43,7 +43,6 @@ export const Pyramid = ({ onMapClick }: Props) => {
 
       const map = e.target as Map;
       const view = map.getView();
-      const [viewW, viewH] = map.getSize()!;
 
       // compute the bounds of the tile
       let minX = tileX * tileW - tileW;
@@ -52,6 +51,7 @@ export const Pyramid = ({ onMapClick }: Props) => {
       let maxY = minY + tileH;
 
       // make room for the overlay
+      const [viewW, viewH] = map.getSize()!;
       let padding = [0, viewW / 3, 0, 0];
       if (viewH > viewW) {
         padding = [0, 0, viewH / 3, 0];
@@ -69,13 +69,22 @@ export const Pyramid = ({ onMapClick }: Props) => {
   useEffect(() => {
     const source = new Zoomify({ url: `/zoomify/img/`, size: mapSize });
     const grid = source.getTileGrid()!;
-    const extent = grid.getExtent();
+
+    // add a buffer of one tile all the way around
+    let extent = grid.getExtent();
+    let [minX, minY, maxX, maxY] = extent;
+    const [tileW, tileH] = tileSize;
+    minX -= tileW;
+    minY -= tileH;
+    maxX += tileW;
+    maxY += tileH;
+    extent = [minX, minY, maxX, maxY];
+
     const view = new View({
       resolutions: grid.getResolutions(),
       extent: extent,
       enableRotation: false,
-      // showFullExtent: true,
-      constrainOnlyCenter: true,
+      showFullExtent: true,
     });
 
     const ol = new Map({ layers: [new TileLayer({ source })], view });
@@ -89,7 +98,7 @@ export const Pyramid = ({ onMapClick }: Props) => {
       ref.innerHTML = "";
       ol.un("click", onClick);
     };
-  }, [mapRef, mapSize, onClick]);
+  }, [mapRef, mapSize, onClick, tileSize]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
