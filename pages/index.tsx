@@ -16,12 +16,11 @@ export default function Home() {
   const click = useCallback(
     (c: Coordinate) => {
       const [style, number] = c;
-      const bingo = bingos.find(
-        (b) => b.style === style && b.number === number
-      );
+      const bingo =
+        bingos.find((b) => b.style === style && b.number === number) || null;
 
       setSelectedBingo((selectedBingo) =>
-        bingo === selectedBingo ? undefined : bingo
+        bingo === selectedBingo ? null : bingo
       );
     },
     [setSelectedBingo]
