@@ -11,7 +11,7 @@ const Pyramid = dynamic(() => import("../components/Pyramid"), {
 });
 
 export default function Home() {
-  const [, setSelectedBingo] = useAtom(selectedBingoAtom);
+  const [selectedBingo, setSelectedBingo] = useAtom(selectedBingoAtom);
 
   const click = useCallback(
     (c: Coordinate) => {
@@ -28,7 +28,11 @@ export default function Home() {
 
   return (
     <>
-      <Pyramid onMapClick={click} />
+      <Pyramid
+        onMapClick={click}
+        col={selectedBingo?.style}
+        row={selectedBingo?.number}
+      />
       <Overlay />
     </>
   );
