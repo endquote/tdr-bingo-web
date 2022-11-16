@@ -1,3 +1,14 @@
+/* prevent the overlay from being horizontally scrollable */
+.overlayContainer {
+  position: "absolute";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: "hidden";
+  pointer-events: "none";
+}
+
 /* in landscape, come in from the right */
 .overlay {
   background-color: rgba(255, 255, 255, 0.9);
@@ -8,9 +19,11 @@
   right: var(--appMargin);
   transform: translateX(100%) translateX(var(--appMargin));
   transition: all var(--transition);
+  pointer-events: all;
 }
 
 @media (orientation: portrait) {
+
   /* in portrait, come in from the bottom */
   .overlay {
     top: 66%;

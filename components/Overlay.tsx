@@ -18,27 +18,29 @@ export const Overlay = () => {
   }, [selectedBingo]);
 
   return (
-    <div
-      className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
-    >
-      <button onClick={() => setSelectedBingo(null)} value="close">
-        close
-      </button>
-      {displayedBingo ? (
-        <p>
-          id: {displayedBingo.id}
-          <br />
-          title: {displayedBingo.title}
-          <br />
-          words: {displayedBingo.words}
-          <br />
-          number: {displayedBingo.number}
-          <br />
-          style: {fonts[displayedBingo.style! - 1]}
-        </p>
-      ) : (
-        <></>
-      )}
+    <div className={styles.overlayContainer}>
+      <div
+        className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
+      >
+        <button onClick={() => setSelectedBingo(null)} value="close">
+          close
+        </button>
+        {displayedBingo ? (
+          <p>
+            id: {displayedBingo.id}
+            <br />
+            title: {displayedBingo.title}
+            <br />
+            words: {displayedBingo.words}
+            <br />
+            number: {displayedBingo.number}
+            <br />
+            style: {fonts[displayedBingo.style! - 1]}
+          </p>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };
