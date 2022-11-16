@@ -2,6 +2,7 @@ import { Map, MapBrowserEvent, View } from "ol";
 import { Coordinate } from "ol/coordinate";
 import { easeOut } from "ol/easing";
 import TileLayer from "ol/layer/Tile";
+import { ObjectEvent } from "ol/Object";
 import "ol/ol.css";
 import { Size } from "ol/size";
 import Zoomify from "ol/source/Zoomify";
@@ -9,15 +10,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 type Props = {
   onMapClick?: (coord: Coordinate) => void;
+  onMapChange?: () => void;
   col?: number;
   row?: number;
 };
 
-// clear selection on move
 // arrow keys to navigate?
 // styling -- pull colors and fonts from main site
 
-export const Pyramid = ({ onMapClick, col, row }: Props) => {
+export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
   const mapSize = useRef<Size>([83512, 115478]);
@@ -28,6 +29,7 @@ export const Pyramid = ({ onMapClick, col, row }: Props) => {
   ]);
 
   const map = useRef<Map>();
+
   const [resize, setResize] = useState(false);
 
   // tell listeners which grid cell was clicked
@@ -58,6 +60,20 @@ export const Pyramid = ({ onMapClick, col, row }: Props) => {
     setResize((resize) => !resize);
   }, []);
 
+  // on move/zoom, tell listeners about it
+  const onChange = useCallback(
+    (e: ObjectEvent) => {
+      if (!onMapChange) {
+        return;
+      }
+      const view = e.target as View;
+      if (!view.getAnimating()) {
+        onMapChange();
+      }
+    },
+    [onMapChange]
+  );
+
   // create the map at startup
   useEffect(() => {
     const source = new Zoomify({ url: `/zoomify/img/`, size: mapSize.current });
@@ -84,8 +100,11 @@ export const Pyramid = ({ onMapClick, col, row }: Props) => {
 
     ol.setTarget(mapRef.current);
     view.fit(extent);
+
     ol.on("click", onClick);
     ol.on("change:size", onResize);
+    view.on("change:center", onChange);
+    view.on("change:resolution", onChange);
 
     map.current = ol;
 
@@ -94,9 +113,12 @@ export const Pyramid = ({ onMapClick, col, row }: Props) => {
       ref.innerHTML = "";
       ol.un("click", onClick);
       ol.un("change:size", onResize);
+      view.on("change:center", onChange);
+      view.on("change:resolution", onChange);
+
       map.current = undefined;
     };
-  }, [mapRef, mapSize, onClick, onResize, tileSize]);
+  }, [onChange, onClick, onResize]);
 
   // focus a token when the row/col/resize props change
   useEffect(() => {
@@ -126,10 +148,7 @@ export const Pyramid = ({ onMapClick, col, row }: Props) => {
       duration: 200,
       easing: easeOut,
     });
-
-    // tracking resize here just to refresh the focus
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [col, map, row, tileSize, resize]);
+  }, [col, row, resize]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
