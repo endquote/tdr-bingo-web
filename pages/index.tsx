@@ -1,9 +1,9 @@
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
 import { Coordinate } from "ol/coordinate";
-import { useCallback } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import { Overlay } from "../components/Overlay";
-import { bingos } from "../data/constants";
+import { Bingo, bingos } from "../data/constants";
 import { selectedBingoAtom } from "../data/state";
 
 const Pyramid = dynamic(() => import("../components/Pyramid"), {
@@ -29,8 +29,56 @@ export default function Home() {
 
   // when the map is moved, unselect the bingo
   const onMapChange = useCallback(() => {
-    setSelectedBingo(null);
+    setSelectedBingo(() => null);
   }, [setSelectedBingo]);
+
+  // keyboard navigation
+  const keyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.repeat || !selectedBingo) {
+        return;
+      }
+
+      let next: Bingo | undefined = undefined;
+
+      if (e.key === "ArrowDown") {
+        next = [...bingos]
+          .filter((b) => b.style === selectedBingo.style)
+          .sort((a, b) => a.number! - b.number!)
+          .find((b) => b.number! > selectedBingo.number!);
+      }
+      if (e.key === "ArrowUp") {
+        next = [...bingos]
+          .filter((b) => b.style === selectedBingo.style)
+          .sort((a, b) => b.number! - a.number!)
+          .find((b) => b.number! < selectedBingo.number!);
+      }
+      if (e.key === "ArrowRight") {
+        next = [...bingos]
+          .filter((b) => b.number === selectedBingo.number)
+          .sort((a, b) => a.style! - b.style!)
+          .find((b) => b.style! > selectedBingo.style!);
+      }
+      if (e.key === "ArrowLeft") {
+        next = [...bingos]
+          .filter((b) => b.number === selectedBingo.number)
+          .sort((a, b) => b.style! - a.style!)
+          .find((b) => b.style! < selectedBingo.style!);
+      }
+
+      if (!next) {
+        return;
+      }
+
+      setSelectedBingo(next);
+    },
+    [selectedBingo, setSelectedBingo]
+  );
+
+  useLayoutEffect(() => {
+    window.addEventListener("keydown", keyDown);
+    return () => window.removeEventListener("keydown", keyDown);
+  }, [keyDown]);
 
   return (
     <>

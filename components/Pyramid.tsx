@@ -15,9 +15,6 @@ type Props = {
   row?: number;
 };
 
-// arrow keys to navigate?
-// styling -- pull colors and fonts from main site
-
 export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
