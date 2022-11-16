@@ -1,3 +1,4 @@
+import { Provider } from "jotai";
 import type { AppProps } from "next/app";
 import { Analytics } from "../components/Analytics";
 import { SiteHead } from "../components/SiteHead";
@@ -6,7 +7,7 @@ import styles from "../styles/Home.module.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider>
       <SiteHead />
       <div className={styles.container}>
         <main className={styles.main}>
@@ -14,6 +15,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
       </div>
       <Analytics />
-    </>
+    </Provider>
   );
 }
