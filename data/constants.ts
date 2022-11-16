@@ -35,3 +35,5 @@ export type Bingo = {
 import tokens from "../data/tokens.json";
 
 export const bingos: Bingo[] = tokens as Bingo[];
+
+export const contract = "0xcb6b570b8aeabe38b449aff31f901b8e1b91e396";

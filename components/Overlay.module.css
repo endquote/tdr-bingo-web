@@ -20,6 +20,7 @@
   transform: translateX(100%) translateX(var(--appMargin));
   transition: all var(--transition);
   pointer-events: all;
+  padding: var(--appMargin)
 }
 
 @media (orientation: portrait) {

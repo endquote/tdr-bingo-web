@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Bingo, fonts } from "../data/constants";
+import { Bingo, contract, fonts } from "../data/constants";
 import { selectedBingoAtom } from "../data/state";
 import styles from "./Overlay.module.css";
 
@@ -36,6 +36,14 @@ export const Overlay = () => {
             number: {displayedBingo.number}
             <br />
             style: {fonts[displayedBingo.style! - 1]}
+            <br />
+            <a
+              href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              opensea
+            </a>
           </p>
         ) : (
           <></>
