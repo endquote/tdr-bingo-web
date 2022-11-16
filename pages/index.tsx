@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
 import dynamic from "next/dynamic";
 import { Coordinate } from "ol/coordinate";
-import { useCallback, useLayoutEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Overlay } from "../components/Overlay";
 import { Bingo, bingos } from "../data/constants";
-import { selectedBingoAtom } from "../data/state";
+import selectedBingoAtom from "../data/state";
 
 const Pyramid = dynamic(() => import("../components/Pyramid"), {
   ssr: false,
@@ -75,7 +75,7 @@ export default function Home() {
     [selectedBingo, setSelectedBingo]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.addEventListener("keydown", keyDown);
     return () => window.removeEventListener("keydown", keyDown);
   }, [keyDown]);

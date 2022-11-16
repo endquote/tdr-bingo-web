@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Bingo, contract, fonts } from "../data/constants";
-import { selectedBingoAtom } from "../data/state";
+import selectedBingoAtom from "../data/state";
 import styles from "./Overlay.module.css";
 
 export const Overlay = () => {
