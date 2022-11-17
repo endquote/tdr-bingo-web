@@ -17,11 +17,12 @@ export default function Home() {
   const onMapClick = useCallback(
     (c: Coordinate) => {
       const [style, number] = c;
-      const bingo =
-        bingos.find((b) => b.style === style && b.number === number) || null;
+      const bingo = bingos.find(
+        (b) => b.style === style && b.number === number
+      );
 
       setSelectedBingo((selectedBingo) =>
-        bingo === selectedBingo ? null : bingo
+        bingo === selectedBingo ? undefined : bingo
       );
     },
     [setSelectedBingo]
@@ -29,7 +30,7 @@ export default function Home() {
 
   // when the map is moved, unselect the bingo
   const onMapChange = useCallback(() => {
-    setSelectedBingo(() => null);
+    setSelectedBingo(() => undefined);
   }, [setSelectedBingo]);
 
   // keyboard navigation
@@ -70,7 +71,7 @@ export default function Home() {
         return;
       }
 
-      setSelectedBingo(next);
+      setSelectedBingo(() => next);
     },
     [selectedBingo, setSelectedBingo]
   );
