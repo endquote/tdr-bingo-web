@@ -30,7 +30,7 @@ export default function Home() {
 
   // when the map is moved, unselect the bingo
   const onMapChange = useCallback(() => {
-    setSelectedBingo(() => undefined);
+    setSelectedBingo(undefined);
   }, [setSelectedBingo]);
 
   // keyboard navigation
@@ -71,7 +71,7 @@ export default function Home() {
         return;
       }
 
-      setSelectedBingo(() => next);
+      setSelectedBingo(next);
     },
     [selectedBingo, setSelectedBingo]
   );

@@ -5,21 +5,18 @@ import { Bingo, bingos } from "./constants";
 
 // https://jotai.org/docs/utils/atom-with-hash
 // https://jotai.org/docs/guides/nextjs#sync-with-router
-const selectedBingoIdAtom = atomWithHash<number | undefined>(
-  "bingo",
-  undefined,
-  {
-    replaceState: false,
-    subscribe: (callback) => {
-      Router.events.on("routeChangeComplete", callback);
-      window.addEventListener("hashchange", callback);
-      return () => {
-        Router.events.off("routeChangeComplete", callback);
-        window.removeEventListener("hashchange", callback);
-      };
-    },
-  }
-);
+const selectedBingoIdAtom = atomWithHash<number | undefined>("id", undefined, {
+  replaceState: false,
+  delayInit: true,
+  subscribe: (callback) => {
+    Router.events.on("routeChangeComplete", callback);
+    window.addEventListener("hashchange", callback);
+    return () => {
+      Router.events.off("routeChangeComplete", callback);
+      window.removeEventListener("hashchange", callback);
+    };
+  },
+});
 
 selectedBingoIdAtom.debugLabel = "selectedBingoIdAtom";
 
@@ -29,9 +26,20 @@ const selectedBingoAtom = atom(
     const id = get(selectedBingoIdAtom);
     return bingos.find((b) => b.id === id);
   },
-  (get, set, update: (prev: Bingo | undefined) => Bingo | undefined) => {
-    const val = update(get(selectedBingoAtom));
-    set(selectedBingoIdAtom, val ? val.id : RESET);
+  (
+    get,
+    set,
+    update: Bingo | undefined | ((prev: Bingo | undefined) => Bingo | undefined)
+  ) => {
+    let val;
+    if (update === undefined) {
+      val = RESET;
+    } else if ("id" in update) {
+      val = update.id;
+    } else {
+      val = update(get(selectedBingoAtom))?.id;
+    }
+    set(selectedBingoIdAtom, val);
   }
 );
 
