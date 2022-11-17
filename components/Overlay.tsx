@@ -22,7 +22,7 @@ export const Overlay = () => {
       <div
         className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
       >
-        <button onClick={() => setSelectedBingo(null)} value="close">
+        <button onClick={() => setSelectedBingo(() => undefined)} value="close">
           close
         </button>
         {displayedBingo ? (
