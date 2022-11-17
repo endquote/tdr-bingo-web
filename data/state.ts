@@ -37,7 +37,7 @@ const selectedBingoAtom = atom(
     } else if ("id" in update) {
       val = update.id;
     } else {
-      val = update(get(selectedBingoAtom))?.id;
+      val = update(get(selectedBingoAtom))?.id || RESET;
     }
     set(selectedBingoIdAtom, val);
   }
