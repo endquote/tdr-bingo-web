@@ -3,8 +3,9 @@ import dynamic from "next/dynamic";
 import { Coordinate } from "ol/coordinate";
 import { useCallback, useEffect } from "react";
 import { Overlay } from "../components/Overlay";
+import aboutModeAtom from "../data/aboutMode";
 import { Bingo, bingos } from "../data/constants";
-import selectedBingoAtom from "../data/state";
+import selectedBingoAtom from "../data/selectedBingo";
 
 const Pyramid = dynamic(() => import("../components/Pyramid"), {
   ssr: false,
@@ -12,6 +13,7 @@ const Pyramid = dynamic(() => import("../components/Pyramid"), {
 
 export default function Home() {
   const [selectedBingo, setSelectedBingo] = useAtom(selectedBingoAtom);
+  const [aboutMode, setAboutMode] = useAtom(aboutModeAtom);
 
   // when the map is clicked, find the bingo that was clicked and select it
   const onMapClick = useCallback(
@@ -31,7 +33,8 @@ export default function Home() {
   // when the map is moved, unselect the bingo
   const onMapChange = useCallback(() => {
     setSelectedBingo();
-  }, [setSelectedBingo]);
+    setAboutMode(false);
+  }, [setAboutMode, setSelectedBingo]);
 
   // keyboard navigation
   const keyDown = useCallback(

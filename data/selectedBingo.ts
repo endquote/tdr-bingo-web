@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { atomWithHash, RESET } from "jotai/utils";
 import { Router } from "next/router";
+import aboutModeAtom from "./aboutMode";
 import { Bingo, bingos } from "./constants";
 
 // https://jotai.org/docs/utils/atom-with-hash
@@ -40,6 +41,7 @@ const selectedBingoAtom = atom(
       val = update(get(selectedBingoAtom))?.id || RESET;
     }
     set(selectedBingoIdAtom, val);
+    set(aboutModeAtom, false);
   }
 );
 

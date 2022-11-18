@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 // this one doesn't work
 // https://www.npmjs.com/package/@react-hook/window-size
 
-export function useWindowSize() {
+export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState<{
     width: number | undefined;
     height: number | undefined;
@@ -28,4 +28,4 @@ export function useWindowSize() {
   }, []);
 
   return windowSize;
-}
+};
