@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
-import { Bingo, contract, fonts } from "../data/constants";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { Bingo, contract, projects } from "../data/constants";
 import selectedBingoAtom from "../data/state";
 import styles from "./Overlay.module.css";
 
@@ -16,6 +17,38 @@ export const Overlay = () => {
       setDisplayedBingo(selectedBingo);
     }
   }, [selectedBingo]);
+
+  const project = useMemo(
+    () =>
+      displayedBingo && displayedBingo.style
+        ? projects[displayedBingo.style - 1]
+        : undefined,
+    [displayedBingo]
+  );
+
+  const ProjectLink = () => {
+    if (project && project.name && project.link) {
+      return (
+        <>
+          <br />
+          project:{" "}
+          <Link href={project.link} target="_blank">
+            {project.name}
+          </Link>
+        </>
+      );
+    }
+    if (project && project.name && !project.link) {
+      return (
+        <>
+          <br />
+          project: {project.name}
+        </>
+      );
+    }
+
+    return <></>;
+  };
 
   return (
     <div className={styles.overlayContainer}>
@@ -34,16 +67,14 @@ export const Overlay = () => {
             words: {displayedBingo.words}
             <br />
             number: {displayedBingo.number}
+            <ProjectLink />
             <br />
-            style: {fonts[displayedBingo.style! - 1]}
-            <br />
-            <a
+            <Link
               href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo.id}`}
               target="_blank"
-              rel="noreferrer"
             >
               opensea
-            </a>
+            </Link>
           </p>
         ) : (
           <></>
