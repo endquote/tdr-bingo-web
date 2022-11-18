@@ -121,7 +121,7 @@ export const Overlay = () => {
       <div
         ref={scrollRef}
         onClick={() => setSelectedBingo()}
-        style={{ overflow: "scroll" }}
+        style={{ overflowY: "auto" }}
         className={classNames(
           styles.overlay,
           selectedBingo || aboutMode ? styles.open : ""
