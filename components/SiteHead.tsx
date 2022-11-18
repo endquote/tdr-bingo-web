@@ -1,24 +1,20 @@
 import Head from "next/head";
 
 export const SiteHead = () => {
+  const siteName = "TDRBingo® data";
+  const siteDesc = "a visualization of the TDRBingo® NFT collection";
+
   return (
     <Head>
-      <title>TDRBingo® community site</title>
-      <meta name="title" property="og:title" content="TDRBingo® data"></meta>
-      <meta
-        name="description"
-        property="og:description"
-        content="a visualization of the TDRBingo® NFT collection"
-      />
+      <title>{siteName}</title>
+      <meta name="title" property="og:title" content={siteName}></meta>
+      <meta name="description" property="og:description" content={siteDesc} />
       <meta name="image" property="og:image" content="/favicon/og.png" />
       <meta name="twitter:image" content="/favicon/og.png" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@TDRBingo" />
-      <meta name="twitter:title" content="TDRBingo® data" />
-      <meta
-        name="twitter:description"
-        content="a visualization of the TDRBingo® NFT collection"
-      />
+      <meta name="twitter:title" content={siteName} />
+      <meta name="twitter:description" content={siteDesc} />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
