@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useAtom } from "jotai";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Bingo, contract, projects } from "../data/constants";
+import { Bingo, contract, Project, projects } from "../data/constants";
 import selectedBingoAtom from "../data/state";
 import styles from "./Overlay.module.css";
 
@@ -18,36 +18,47 @@ export const Overlay = () => {
     }
   }, [selectedBingo]);
 
-  const project = useMemo(
+  const bingoProjects = useMemo(
     () =>
       displayedBingo && displayedBingo.style
         ? projects[displayedBingo.style - 1]
-        : undefined,
+        : [],
     [displayedBingo]
   );
 
-  const ProjectLink = () => {
+  const ProjectLink = ({ project }: { project: Project }) => {
     if (project && project.name && project.link) {
       return (
-        <>
-          <br />
-          project:{" "}
+        <div>
           <Link href={project.link} target="_blank">
             {project.name}
           </Link>
-        </>
+        </div>
       );
     }
     if (project && project.name && !project.link) {
-      return (
-        <>
-          <br />
-          project: {project.name}
-        </>
-      );
+      return <div>{project.name}</div>;
     }
 
     return <></>;
+  };
+
+  const BingoProjects = () => {
+    if (!bingoProjects.length) {
+      return <></>;
+    }
+
+    return (
+      <div>
+        <p>
+          project{bingoProjects.length > 1 ? "s" : ""}:
+          <br />
+          {bingoProjects.map((p, i) => (
+            <ProjectLink key={i} project={p} />
+          ))}
+        </p>
+      </div>
+    );
   };
 
   return (
@@ -55,30 +66,29 @@ export const Overlay = () => {
       <div
         className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
       >
-        <button onClick={() => setSelectedBingo(undefined)} value="close">
+        <button onClick={() => setSelectedBingo()} value="close">
           close
         </button>
-        {displayedBingo ? (
+        <div>
           <p>
-            id: {displayedBingo.id}
+            id: {displayedBingo?.id}
             <br />
-            title: {displayedBingo.title}
+            title: {displayedBingo?.title}
             <br />
-            words: {displayedBingo.words}
+            words: {displayedBingo?.words}
             <br />
-            number: {displayedBingo.number}
-            <ProjectLink />
-            <br />
-            <Link
-              href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo.id}`}
-              target="_blank"
-            >
-              opensea
-            </Link>
+            number: {displayedBingo?.number}
           </p>
-        ) : (
-          <></>
-        )}
+        </div>
+        <BingoProjects />
+        <p>
+          <Link
+            href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo?.id}`}
+            target="_blank"
+          >
+            opensea
+          </Link>
+        </p>
       </div>
     </div>
   );
