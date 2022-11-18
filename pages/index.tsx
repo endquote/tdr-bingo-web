@@ -13,7 +13,7 @@ const Pyramid = dynamic(() => import("../components/Pyramid"), {
 
 export default function Home() {
   const [selectedBingo, setSelectedBingo] = useAtom(selectedBingoAtom);
-  const [aboutMode, setAboutMode] = useAtom(aboutModeAtom);
+  const [, setAboutMode] = useAtom(aboutModeAtom);
 
   // when the map is clicked, find the bingo that was clicked and select it
   const onMapClick = useCallback(

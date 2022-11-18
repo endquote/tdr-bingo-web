@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useAtom } from "jotai";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import aboutModeAtom from "../data/aboutMode";
 import { Bingo, contract, Project, projects } from "../data/constants";
 import selectedBingoAtom from "../data/selectedBingo";
@@ -12,7 +12,9 @@ export const Overlay = () => {
 
   const [displayedBingo, setDisplayedBingo] = useState<Bingo | undefined>();
 
-  const [aboutMode, setAboutMode] = useAtom(aboutModeAtom);
+  const [aboutMode] = useAtom(aboutModeAtom);
+
+  const scrollRef = useRef<HTMLDivElement>(null!);
 
   // this way the info doesn't disappear while the overlay is closing
   useEffect(() => {
@@ -20,6 +22,10 @@ export const Overlay = () => {
       setDisplayedBingo(selectedBingo);
     }
   }, [selectedBingo]);
+
+  useEffect(() => {
+    scrollRef.current.scrollTo({ top: 0 });
+  }, [displayedBingo]);
 
   const bingoProjects = useMemo(
     () =>
@@ -113,6 +119,7 @@ export const Overlay = () => {
   return (
     <div className={styles.overlayContainer}>
       <div
+        ref={scrollRef}
         onClick={() => setSelectedBingo()}
         style={{ overflow: "scroll" }}
         className={classNames(
