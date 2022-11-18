@@ -29,7 +29,7 @@ export const Overlay = () => {
   const ProjectLink = ({ project }: { project: Project }) => {
     if (project && project.name && project.link) {
       return (
-        <div>
+        <div style={{ display: "block" }}>
           <Link href={project.link} target="_blank">
             {project.name}
           </Link>
@@ -50,13 +50,9 @@ export const Overlay = () => {
 
     return (
       <div>
-        <p>
-          project{bingoProjects.length > 1 ? "s" : ""}:
-          <br />
-          {bingoProjects.map((p, i) => (
-            <ProjectLink key={i} project={p} />
-          ))}
-        </p>
+        {bingoProjects.map((p, i) => (
+          <ProjectLink key={i} project={p} />
+        ))}
       </div>
     );
   };
@@ -64,31 +60,30 @@ export const Overlay = () => {
   return (
     <div className={styles.overlayContainer}>
       <div
+        onClick={() => setSelectedBingo()}
+        style={{ overflow: "scroll" }}
         className={classNames(styles.overlay, selectedBingo ? styles.open : "")}
       >
-        <button onClick={() => setSelectedBingo()} value="close">
-          close
-        </button>
+        <div>{displayedBingo?.title}</div>
+        <div>&nbsp;</div>
         <div>
-          <p>
-            id: {displayedBingo?.id}
-            <br />
-            title: {displayedBingo?.title}
-            <br />
-            words: {displayedBingo?.words}
-            <br />
-            number: {displayedBingo?.number}
-          </p>
+          id: {displayedBingo?.id}
+          <br />
+          words: {displayedBingo?.words}
+          <br />
+          number: {displayedBingo?.number}
+          <br />
+          style: {displayedBingo?.style}
         </div>
+        <div>&nbsp;</div>
         <BingoProjects />
-        <p>
-          <Link
-            href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo?.id}`}
-            target="_blank"
-          >
-            opensea
-          </Link>
-        </p>
+        <div>&nbsp;</div>
+        <Link
+          href={`https://opensea.io/assets/ethereum/${contract}/${displayedBingo?.id}`}
+          target="_blank"
+        >
+          OpenSea
+        </Link>
       </div>
     </div>
   );

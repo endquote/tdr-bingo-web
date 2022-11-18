@@ -1,17 +1,41 @@
+@font-face {
+  font-family: 'Circular Book';
+  font-style: normal;
+  font-weight: normal;
+  src: local("Circular Book"), url("/fonts/lineto-circular-pro-book.woff") format("woff")
+}
+
+@font-face {
+  font-family: 'Circular Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local("Circular Bold"), url("/fonts/lineto-circular-pro-bold.woff") format("woff")
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+  font-family: 'Circular Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.0625rem;
+  letter-spacing: -0.020em;
+  color: #454545;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility
 }
 
 a {
   color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ed0677;
 }
 
 * {
   box-sizing: border-box;
   --transition: 200ms ease-out;
-  --appMargin: 20px;
+  --appMargin: 0px;
 }

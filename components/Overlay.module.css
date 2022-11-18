@@ -11,16 +11,16 @@
 
 /* in landscape, come in from the right */
 .overlay {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #ff0;
+  font-size: larger;
   position: absolute;
   top: var(--appMargin);
-  bottom: var(--appMargin);
   left: 66%;
   right: var(--appMargin);
   transform: translateX(100%) translateX(var(--appMargin));
   transition: all var(--transition);
   pointer-events: all;
-  padding: var(--appMargin)
+  padding: 20px;
 }
 
 @media (orientation: portrait) {
@@ -29,6 +29,7 @@
   .overlay {
     top: 66%;
     left: var(--appMargin);
+    bottom: var(--appMargin);
     transform: translateY(100%) translateY(var(--appMargin));
   }
 }
@@ -36,4 +37,9 @@
 .open {
   transition: transform var(--transition);
   transform: none;
+}
+
+.overlay th,
+.overlay td {
+  padding: 0 20px 0 0;
 }
