@@ -1,19 +1,6 @@
 .container {
   padding: 0;
   display: flex;
-  height: 100vh;
-}
-
-@supports (-webkit-touch-callout: none) {
-
-  /*
-  couldn't find CSS that works in both chrome and ios, but this seems to fix ios
-  https://dev-tips.com/css/overlapping-bottom-navigation-bar-despite-100vh-in-ios-safari
-  https://stackoverflow.com/a/47818418
-  */
-  .container {
-    height: stretch;
-  }
 }
 
 .main {
