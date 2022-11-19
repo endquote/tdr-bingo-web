@@ -19,7 +19,7 @@ type Props = {
 export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
 
-  const mapSize = useRef<Size>([83512, 115478]);
+  const mapSize = useRef<Size>([79288, 111254]);
 
   const tileSize = useRef<Size>([
     mapSize.current[0] / 22,
