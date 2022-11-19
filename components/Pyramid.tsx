@@ -7,6 +7,7 @@ import "ol/ol.css";
 import { Size } from "ol/size";
 import Zoomify from "ol/source/Zoomify";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useWindowSize } from "../util/useWindowSize";
 
 type Props = {
   onMapClick?: (coord: Coordinate) => void;
@@ -28,6 +29,15 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
   const map = useRef<Map>();
 
   const [resize, setResize] = useState(false);
+
+  // ol fails to init if the size isn't fully figured out
+  const windowSize = useWindowSize();
+  const [isSized, setIsSized] = useState(false);
+  useEffect(() => {
+    if (windowSize.width && windowSize.height && !isSized) {
+      setIsSized(() => true);
+    }
+  }, [isSized, windowSize]);
 
   // tell listeners which grid cell was clicked
   const onClick = useCallback(
@@ -73,6 +83,10 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
 
   // create the map at startup
   useEffect(() => {
+    if (!isSized) {
+      return;
+    }
+
     const source = new Zoomify({ url: `/zoomify/img/`, size: mapSize.current });
     const grid = source.getTileGrid()!;
 
@@ -115,7 +129,7 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
 
       map.current = undefined;
     };
-  }, [onChange, onClick, onResize]);
+  }, [onChange, onClick, onResize, isSized]);
 
   // focus a token when the row/col/resize props change
   useEffect(() => {
