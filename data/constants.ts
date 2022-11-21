@@ -27,7 +27,7 @@ export const projects: Project[][] = [
   ],
   [
     {
-      name: "HRDFLR",
+      name: "Hardfloor",
       link: "https://www.discogs.com/release/10621542-Hardfloor-The-Business-Of-Basslines/image/SW1hZ2U6MzA0OTU1NjA=",
     },
   ],
@@ -48,15 +48,28 @@ export const projects: Project[][] = [
       link: "https://www.thedesignersrepublic.com/formula-fusion",
     },
   ],
-  [{ name: "barcodes" }],
+  [
+    {
+      name: "barcodes",
+    },
+  ],
   [
     {
       name: "WipEout 2097",
       link: "https://www.thedesignersrepublic.com/wipeout",
     },
   ],
-  [{ name: "Bed" }],
-  [{ name: "Warp", link: "https://warp.net/" }],
+  [
+    {
+      name: "Bed",
+    },
+  ],
+  [
+    {
+      name: "Warp",
+      link: "https://warp.net/",
+    },
+  ],
   [
     {
       name: "WipEout",
@@ -64,6 +77,7 @@ export const projects: Project[][] = [
     },
     {
       name: "Model 500",
+      link: "https://www.discogs.com/master/137924-Model-500-Be-Brave/image/SW1hZ2U6MzE2NTQ4OQ==",
     },
   ],
   [
@@ -88,7 +102,12 @@ export const projects: Project[][] = [
       link: "https://www.thedesignersrepublic.com/global-sound-system",
     },
   ],
-  [{ name: "POG" }],
+  [
+    {
+      name: "Principles of Geometry",
+      link: "https://www.principles-of-geometry.com",
+    },
+  ],
   [
     {
       name: "Autechre (Oversteps)",
@@ -104,11 +123,19 @@ export const projects: Project[][] = [
   [
     {
       name: "DR.NO-B",
-      link: "https://y2kaestheticinstitute.tumblr.com/image/183109255679",
+      link: "https://www.searchsystem.co/post/630679362397765632",
     },
   ],
-  [{ name: "ZAT" }],
-  [{ name: "NEW NOW WOW" }],
+  [
+    {
+      name: "ZAT",
+    },
+  ],
+  [
+    {
+      name: "NEW NOW WOW",
+    },
+  ],
   [
     {
       name: "Jazz em Agosto",
@@ -121,5 +148,10 @@ export const projects: Project[][] = [
       link: "https://www.thedesignersrepublic.com/chiastic-slide",
     },
   ],
-  [],
+  [
+    {
+      name: "TDRBingo®",
+      link: "https://tdrbingo.com",
+    },
+  ],
 ];
