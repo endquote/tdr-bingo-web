@@ -87,7 +87,10 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
       return;
     }
 
-    const source = new Zoomify({ url: `/zoomify/img/`, size: mapSize.current });
+    const source = new Zoomify({
+      url: `/zoomify/revealed/`,
+      size: mapSize.current,
+    });
     const grid = source.getTileGrid()!;
 
     // add a buffer of one tile all the way around
@@ -133,7 +136,7 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
 
   // focus a token when the row/col/resize props change
   useEffect(() => {
-    if (!col || !row || !map.current) {
+    if (!col || !row || !map.current || !isSized) {
       return;
     }
 
@@ -159,7 +162,7 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
       duration: 200,
       easing: easeOut,
     });
-  }, [col, row, resize]);
+  }, [col, row, resize, isSized]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
