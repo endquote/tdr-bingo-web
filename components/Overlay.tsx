@@ -101,9 +101,9 @@ export const Overlay = () => {
         <div>
           This app was created by the{" "}
           <Link href="https://discord.gg/SzeHH3cfXE">Discord</Link> community to
-          explore the tokens organized by the font and number traits. Click a
-          token for details, including links to the TDR projects the font was
-          used in.
+          explore the tokens organized by the font and number traits. Scroll to
+          zoom, drag to pan, click a token for details, use arrow keys to
+          navigate tokens.
         </div>
         <div>&nbsp;</div>
         <div>
