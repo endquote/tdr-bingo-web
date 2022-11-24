@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "export": "next build && next export",
-    "start": "next build && next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "selfupdate": "pnpm up"
   },
