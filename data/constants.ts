@@ -1,9 +1,11 @@
+import { Size } from "ol/size";
+import tokens from "../data/tokens.json";
+
 export type Bingo = {
   id: number;
   title: string;
-  revealed: boolean;
-  number?: number;
-  style?: number;
+  number: number;
+  style: number;
   words: number;
 };
 
@@ -12,7 +14,9 @@ export type Project = {
   link?: string;
 };
 
-import tokens from "../data/tokens.json";
+export const mapSize: Size = [79288, 111254];
+
+export const tileSize: Size = [mapSize[0] / 22, mapSize[1] / 22];
 
 export const bingos: Bingo[] = tokens as Bingo[];
 

@@ -4,27 +4,19 @@ import { easeOut } from "ol/easing";
 import TileLayer from "ol/layer/Tile";
 import { ObjectEvent } from "ol/Object";
 import "ol/ol.css";
-import { Size } from "ol/size";
 import Zoomify from "ol/source/Zoomify";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Bingo, mapSize, tileSize } from "../data/constants";
 import { useWindowSize } from "../util/useWindowSize";
 
 type Props = {
   onMapClick?: (coord: Coordinate) => void;
   onMapChange?: () => void;
-  col?: number;
-  row?: number;
+  selectedBingo?: Bingo;
 };
 
-export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
+export const Pyramid = ({ onMapClick, onMapChange, selectedBingo }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null!);
-
-  const mapSize = useRef<Size>([79288, 111254]);
-
-  const tileSize = useRef<Size>([
-    mapSize.current[0] / 22,
-    mapSize.current[1] / 22,
-  ]);
 
   const map = useRef<Map>();
 
@@ -43,23 +35,9 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
   const onClick = useCallback(
     (e: MapBrowserEvent<PointerEvent>) => {
       const [clickX, clickY] = e.coordinate;
-      const [mapW, mapH] = mapSize.current;
-
-      if (clickX < 0 || clickX > mapW) {
-        return;
-      }
-
-      if (clickY > 0 || clickY < -mapH) {
-        return;
-      }
-
-      const [tileW, tileH] = tileSize.current;
-      const tileX = Math.floor(clickX / tileW) + 1;
-      const tileY = Math.floor(Math.abs(clickY) / tileH) + 1;
-
-      onMapClick?.([tileX, tileY]);
+      onMapClick?.([clickX, -clickY]);
     },
-    [mapSize, onMapClick, tileSize]
+    [onMapClick]
   );
 
   // on resize, toggle the resize flag to force a re-focus
@@ -89,14 +67,14 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
 
     const source = new Zoomify({
       url: `/zoomify/revealed/`,
-      size: mapSize.current,
+      size: mapSize,
     });
     const grid = source.getTileGrid()!;
 
     // add a buffer of one tile all the way around
     let extent = grid.getExtent();
     let [minX, minY, maxX, maxY] = extent;
-    const [tileW, tileH] = tileSize.current;
+    const [tileW, tileH] = tileSize;
     minX -= tileW;
     minY -= tileH;
     maxX += tileW;
@@ -136,16 +114,17 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
 
   // focus a token when the row/col/resize props change
   useEffect(() => {
-    if (!col || !row || !map.current || !isSized) {
+    if (!selectedBingo || !map.current || !isSized) {
       return;
     }
 
-    // compute the bounds of the tile
-    const [tileW, tileH] = tileSize.current;
-    let minX = col * tileW - tileW;
-    let minY = -row * tileH;
-    let maxX = minX + tileW;
-    let maxY = minY + tileH;
+    const [tileW, tileH] = tileSize;
+    const row = 22 - (selectedBingo.style - 1);
+    const offset = (tileW * 22 - tileW * row) / 2;
+    const minY = -row * tileH;
+    const maxY = minY + tileH;
+    const minX = offset + (selectedBingo.number - selectedBingo.style) * tileW;
+    const maxX = minX + tileW;
 
     // make room for the overlay
     const [viewW, viewH] = map.current.getSize()!;
@@ -162,7 +141,7 @@ export const Pyramid = ({ onMapClick, onMapChange, col, row }: Props) => {
       duration: 200,
       easing: easeOut,
     });
-  }, [col, row, resize, isSized]);
+  }, [selectedBingo, resize, isSized]);
 
   return (
     <div style={{ display: "flex", flex: 1 }}>
