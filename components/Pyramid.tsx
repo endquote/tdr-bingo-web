@@ -66,7 +66,7 @@ export const Pyramid = ({ onMapClick, onMapChange, selectedBingo }: Props) => {
     }
 
     const source = new Zoomify({
-      url: `/zoomify/triangle/`,
+      url: `https://assets.endquote.com/tdrbingo/triangle/`,
       size: mapSize,
     });
     const grid = source.getTileGrid()!;
