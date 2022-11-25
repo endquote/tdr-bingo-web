@@ -66,7 +66,7 @@ export const Pyramid = ({ onMapClick, onMapChange, selectedBingo }: Props) => {
     }
 
     const source = new Zoomify({
-      url: `/zoomify/revealed/`,
+      url: `/zoomify/triangle/`,
       size: mapSize,
     });
     const grid = source.getTileGrid()!;
