@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import aboutModeAtom from "../data/aboutMode";
-import { Bingo, contract, Project, projects } from "../data/constants";
+import { Bingo, Project, contract, projects } from "../data/constants";
 import selectedBingoAtom from "../data/selectedBingo";
 import styles from "./Overlay.module.css";
 
@@ -90,8 +90,8 @@ export const Overlay = () => {
     return (
       <div>
         <div>
-          Eyes Down! <Link href="http://tdrbingo.com">TDRBingo®</Link> is the
-          first TDR™XNFT action delivered unto you by{" "}
+          Eyes Down! <Link href="http://www.tdrbingo.com">TDRBingo®</Link> is
+          the first TDR™XNFT action delivered unto you by{" "}
           <Link href="https://www.thedesignersrepublic.com/">
             The Designers Republic™
           </Link>{" "}
@@ -109,8 +109,8 @@ export const Overlay = () => {
         <div>
           built by <Link href="https://endquote.com">endquote</Link>, based on
           research from <Link href="https://bio.link/tangent23">LightCity</Link>
-          , <Link href="https://twitter.com/arch5tanton1">ic</Link>, and
-          neokidbam
+          , <Link href="https://twitter.com/arch5tanton1">arch5tanton1</Link>,
+          and neokidbam
         </div>
       </div>
     );

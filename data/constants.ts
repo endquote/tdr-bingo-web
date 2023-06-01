@@ -43,12 +43,17 @@ export const projects: Project[][] = [
   ],
   [
     {
-      name: "Dr-Nuronfont (PACMAN)",
+      name: "Dr-Nuronfont",
+      link: "https://detunedrecords.bandcamp.com/album/la-source",
+    },
+    {
+      name: "PACMAN",
+      link: "https://www.discogs.com/release/16160204-Various-Join-The-Pac-Pac-Man-40th-Anniversary-Album-/image/SW1hZ2U6ODU0MDM4NDA=",
     },
   ],
   [
     {
-      name: "FX Fusion",
+      name: "Formula Fusion",
       link: "https://www.thedesignersrepublic.com/formula-fusion",
     },
   ],
@@ -87,11 +92,7 @@ export const projects: Project[][] = [
   [
     {
       name: "Humanoid",
-      link: "https://www.discogs.com/master/2402128-Humanoid-sT8818r-Humanoid/image/SW1hZ2U6Njk4OTc4NzQ=",
-    },
-    {
-      name: "LFO (Sheath)",
-      link: "https://www.discogs.com/release/187073-LFO-Sheath/image/SW1hZ2U6MTA3NDQ0OQ==",
+      link: "https://detunedrecords.bandcamp.com/album/st8818r-humanoid",
     },
   ],
   [
@@ -132,12 +133,13 @@ export const projects: Project[][] = [
   ],
   [
     {
-      name: "ZAT",
+      name: "ZAT (unreleased music project)",
     },
   ],
   [
     {
       name: "NEW NOW WOW",
+      link: "https://www.experimentadesign.pt/2009/en/index.html",
     },
   ],
   [
@@ -155,7 +157,7 @@ export const projects: Project[][] = [
   [
     {
       name: "TDRBingo®",
-      link: "https://tdrbingo.com",
+      link: "https://www.tdrbingo.com",
     },
   ],
 ];
