@@ -2,9 +2,9 @@
 export const Analytics = () => {
   return (
     <script
-      defer
-      data-domain="tdrbingo.endquote.com"
-      src="https://stats.endquote.com/js/script.hash.js"
+      async
+      src="https://stats.endquote.com/script.js"
+      data-website-id="a65bd5f1-3cdd-4123-9535-d54d05a454da"
     ></script>
   );
 };
