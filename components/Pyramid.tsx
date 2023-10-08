@@ -1,8 +1,8 @@
 import { Map, MapBrowserEvent, View } from "ol";
+import { ObjectEvent } from "ol/Object";
 import { Coordinate } from "ol/coordinate";
 import { easeOut } from "ol/easing";
 import TileLayer from "ol/layer/Tile";
-import { ObjectEvent } from "ol/Object";
 import "ol/ol.css";
 import Zoomify from "ol/source/Zoomify";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -66,7 +66,7 @@ export const Pyramid = ({ onMapClick, onMapChange, selectedBingo }: Props) => {
     }
 
     const source = new Zoomify({
-      url: `https://assets.endquote.com/tdrbingo/triangle/`,
+      url: `https://objects-us-east-1.dream.io/tdrbingo/triangle/`,
       size: mapSize,
     });
     const grid = source.getTileGrid()!;
