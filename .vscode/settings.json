@@ -3,8 +3,8 @@
     "editor.defaultFormatter": "vscode.css-language-features"
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
@@ -22,7 +22,8 @@
     "**/node_modules": true,
     "**/out": true,
     "**/Thumbs.db": true,
-    "**/zoomify": true
+    "**/zoomify": true,
+    "**/.pnpm-store": true
   },
   "npm.packageManager": "pnpm"
 }
