@@ -5,5 +5,5 @@ RUN curl -L https://unpkg.com/@pnpm/self-installer | node
 COPY . .
 RUN pnpm install
 RUN pnpm build
-CMD ["node", ".output/server/index.mjs"]
+CMD ["pnpm", "start"]
 EXPOSE 3000
