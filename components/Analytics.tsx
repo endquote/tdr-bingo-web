@@ -4,7 +4,7 @@ export const Analytics = () => {
     <script
       async
       src="https://stats.endquote.com/script.js"
-      data-website-id="a65bd5f1-3cdd-4123-9535-d54d05a454da"
+      data-website-id="9a942079-1111-48bd-a74e-a8827161a509"
     ></script>
   );
 };
