@@ -66,7 +66,7 @@ export const Pyramid = ({ onMapClick, onMapChange, selectedBingo }: Props) => {
     }
 
     const source = new Zoomify({
-      url: `https://tdrbingo.s3.us-east-005.dream.io/triangle/`,
+      url: `https://tdr-bingo.s3.us-east-005.dream.io/triangle/`,
       size: mapSize,
     });
     const grid = source.getTileGrid()!;
